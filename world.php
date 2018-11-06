@@ -1,5 +1,8 @@
 <?php
 
+$country = $_GET['country'];
+$all = $_GET['all'];
+
 $host = getenv('IP');
 $username = getenv('C9_USER');
 $password = '';
@@ -7,7 +10,16 @@ $dbname = 'world';
 
 $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
 
-$stmt = $conn->query("SELECT * FROM countries");
+if ($all == 'true'){
+    
+    $stmt = $conn->query("SELECT * FROM countries");
+
+} elseif ($country != ""){
+    
+    $stmt = $conn->query("SELECT * FROM countries WHERE name LIKE '%$country%';");
+}
+
+
 
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
